@@ -60,6 +60,11 @@ module.exports = class Phone {
         return !!doc;
     }
 
+    static async getContact(userID, name) {
+        let phone = await Phone.getByUserID(userID);
+        return phone.contacts.find(contact => contact.name.toLowerCase() == name.toLowerCase());
+    }
+
     static async validatePhoneNumber(phoneNumber) {
         let isValidPhoneString = new RegExp(/\d{3}-\d{3}-\d{3}/g).test(phoneNumber);
         return isValidPhoneString && await Phone.exists(phoneNumber);

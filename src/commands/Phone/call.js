@@ -20,8 +20,8 @@ module.exports = class DolphinCommand extends Command {
 
         if (!await Phone.hasPhone(this.message.author.id)) return this.message.say(`:no_good: You don't have a phone number. Create one using \`.createphone\``);
 
-        let phoneNumber = this.args[0];
-        if (!await Phone.validatePhoneNumber(phoneNumber)) return this.message.say(`:no_good: That's not a valid phone number.`);
+        let phoneNumber = await Phone.validatePhoneNumber(this.args[0]) ? this.args[0] : await Phone.getContact(this.message.author.id, this.args[0]);
+        if (!phoneNumber) return this.message.say(`:no_good: That's not a valid phone number.`);
 
         let receiverPhone = await Phone.getByPhoneNumber(phoneNumber);
         let receiver = this.client.users.get(receiverPhone.userID);
