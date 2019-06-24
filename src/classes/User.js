@@ -1,6 +1,13 @@
 const {Users} = require('../../utils/database.js');
 
 module.exports = class User {
+    static async setupPhone(id, phoneNumber) {
+        let user = await User.getByID(id);
+        
+        user.phone = phoneNumber;
+        await user.save();
+    }
+
     static getByID(id) {
         return new Promise((resolve, reject) => {
             Users.findById(id, async (err, doc) => {

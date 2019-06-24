@@ -9,12 +9,14 @@ const User = new Schema({
 
 const Email = new Schema({
     _id: String,
-    inbox: {type: Array, default: []}
+    inbox: {type: Array, default: []},
+    userID: String
 });
 
 const Phone = new Schema({
     _id: String,
-    contacts: {type: Array, default: []}
+    contacts: {type: Array, default: []},
+    userID: String
 });
 
 module.exports = {
