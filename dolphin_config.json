@@ -1,0 +1,9 @@
+{
+    "prefix": ".",
+    "commands": {
+        "path": "./src/commands"
+    },
+    "defaultCommand": null,
+    "owners": ["224625959158939649", "288117975582507010"],
+    "mainColor": "#FFD700"
+}

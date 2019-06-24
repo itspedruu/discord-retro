@@ -1,2 +1,17 @@
-# discord-retro
-Discord Hack Week Project
+## What is it?
+
+Discord Retro is a project for the Discord Hack Week. It consists in turning discord "retro". And why is that? That is because this bot makes possible to create *fictional* emails and phones. You can call users, send e-mails, save contacts, and much more **all inside Discord**.
+
+## Architecture
+
+Discord Retro uses [MongoDB](https://www.mongodb.com/) as it's database to store the users information such as e-mails, contacts and etc. We use **MongoDB** because of our experience and accessibility in such a short timespan. It also uses [DiscordJS](https://discord.js.org/), an open-source discord library to handle the Discord API, and [Dolphin](https://github.com/itspedruu/dolphin), a discord.js framework to easily create bots created by one of the Discord Retro team members.
+
+## License
+
+> Copyright 2019 Pedro Pinto
+>
+> Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+>
+> The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+>
+> THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
