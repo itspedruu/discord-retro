@@ -17,4 +17,12 @@ module.exports = class Utils {
 		let tempo = types.filter(x => x.time !== 0).map(x => pad(x.time) + x.word).join(' ');
 		return tempo;
 	}
+
+	// Extracted from https://github.com/itspedruu/pagify
+	static pagify(arr, items) {
+		let arrCopy = arr.slice();
+		let loops = Math.ceil(arr.length / items);
+		let pages = Array(loops).fill().map(() => arrCopy.splice(0, items));
+		return pages;
+	}
 }

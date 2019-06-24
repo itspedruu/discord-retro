@@ -18,6 +18,8 @@ module.exports = class DolphinCommand extends Command {
     async run() {
         if (!this.message.dmVersion) return this.message.say(`:no_entry: You need to execute this command in the private messages.`);
 
+        if (!await Phone.hasPhone(this.message.author.id)) return this.message.say(`:no_good: You don't have a phone number. Create one using \`.createphone\``);
+
         let phoneNumber = this.args[0];
         if (!await Phone.validatePhoneNumber(phoneNumber)) return this.message.say(`:no_good: That's not a valid phone number.`);
 
