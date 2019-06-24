@@ -16,7 +16,6 @@ module.exports = class DolphinCommand extends Command {
 
         this.message.channel.send(new RichEmbed()
             .setAuthor(`${this.message.author.username}'s Profile`, this.message.author.displayAvatarURL)
-            .setThumbnail(this.message.author.displayAvatarURL)
             .setColor(this.client.options.mainColor)
             .setFooter(...this.message.userFooter)
             .setTimestamp()

@@ -8,7 +8,7 @@ module.exports = class User {
                 
                 if (!doc) {
                     // Creates a new document with the respective user id if it doesn't exist in the database
-                    doc = new User({_id: id});
+                    doc = new Users({_id: id});
                     // Saves the document
                     await doc.save();
                 }
