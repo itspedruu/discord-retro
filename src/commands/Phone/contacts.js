@@ -18,19 +18,19 @@ module.exports = class DolphinCommand extends Command {
         let phone = await Phone.getByUserID(this.message.author.id);
         if (phone.contacts.length == 0) return this.message.say(`:cry: You don't have saved contacts. Add one using \`.addcontact\``);
 
-        this.pages = utils.pagify(phone.contacts, 10);
+        let pages = utils.pagify(phone.contacts, 10);
 
-        this.createPagination({items: this.pages, removeReactions: true})
-    }
+        const getPage = (page, pageNumber) => {
+            let description = page.map(contact => `:bust_in_silhouette: **${contact.name}** \`${contact.phone}\``);
+    
+            return new RichEmbed()
+                .setAuthor(`${this.message.author.username}'s Contacts`, this.message.author.displayAvatarURL)
+                .setColor(this.client.options.mainColor)
+                .setFooter(`Page ${pageNumber}/${pages.length}`, this.client.user.displayAvatarURL)
+                .setTimestamp()
+                .setDescription(description);
+        }
 
-    getPage(page, pageNumber) {
-        let description = page.map(contact => `:bust_in_silhouette: **${contact.name}** \`${contact.phone}\``);
-
-        return new RichEmbed()
-            .setAuthor(`${this.message.author.username}'s Contacts`, this.message.author.displayAvatarURL)
-            .setColor(this.client.options.mainColor)
-            .setFooter(`Page ${pageNumber}/${this.pages.length}`, this.client.user.displayAvatarURL)
-            .setTimestamp()
-            .setDescription(description);
+        this.createPagination({items: pages, removeReactions: true, getPage: getPage, userID: this.message.author.id});
     }
 }

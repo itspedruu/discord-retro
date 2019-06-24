@@ -18,6 +18,20 @@ module.exports = class Phone {
         return {result: 'success', message: `You created a phone number! Your phone number is \`${phoneNumber}\``};
     }
 
+    static async addContact(id, name, phoneNumber) {
+        if (name.length > 20) return {result: 'error', message: 'The contact name can not have more than 20 characters.'};
+
+        if (!await Phone.validatePhoneNumber(phoneNumber)) return {result: 'error', message: `The phone number \`${phoneNumber}\` doesn't exist in the phone book.`};
+
+        let phone = await Phone.getByUserID(id);
+        if (phone.contacts.some(contact => contact.phone == phoneNumber)) return {result: 'error', message: 'The contact you are trying to save already exists. Delete it using `.removecontact`'};
+
+        phone.contacts.push({name, phone: phoneNumber});
+        await phone.save();
+
+        return {result: 'success', message: `Saved \`${phoneNumber}\` phone number as **${name}**`};
+    }
+
     static async generatePhoneNumber() {
         let randomPhoneNumber = new Array(3).fill().map(() => utils.randomBetween(111, 999)).join('-');
         return await Phone.exists(randomPhoneNumber) ? await Phone.generatePhoneNumber() : randomPhoneNumber;
