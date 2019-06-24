@@ -62,7 +62,8 @@ module.exports = class Phone {
 
     static async getContact(userID, name) {
         let phone = await Phone.getByUserID(userID);
-        return phone.contacts.find(contact => contact.name.toLowerCase() == name.toLowerCase());
+        let contact = phone.contacts.find(contact => contact.name.toLowerCase() == name.toLowerCase());
+        return contact ? contact.phone : null;
     }
 
     static async validatePhoneNumber(phoneNumber) {
