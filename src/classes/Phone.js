@@ -33,6 +33,11 @@ module.exports = class Phone {
         return !!doc;
     }
 
+    static async validatePhoneNumber(phoneNumber) {
+        let isValidPhoneString = new RegExp(/\d{3}-\d{3}-\d{3}/g).test(phoneNumber);
+        return isValidPhoneString && await Phone.exists(phoneNumber);
+    }
+
     static getByPhoneNumber(phoneNumber) {
         return new Promise((resolve, reject) => {
             Phones.findById(phoneNumber, (err, doc) => {

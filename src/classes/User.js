@@ -7,6 +7,11 @@ module.exports = class User {
         user.phone = phoneNumber;
         await user.save();
     }
+    
+    static async isInCall(id) {
+        let user = await User.getByID(id);
+        return user.inCall;
+    }
 
     static getByID(id) {
         return new Promise((resolve, reject) => {

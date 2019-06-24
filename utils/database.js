@@ -4,7 +4,8 @@ const Schema = mongoose.Schema;
 const User = new Schema({
     _id: String,
     email: String,
-    phone: String
+    phone: String,
+    inCall: {type: Boolean, default: false}
 });
 
 const Email = new Schema({
