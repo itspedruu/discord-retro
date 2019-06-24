@@ -16,7 +16,7 @@ module.exports = class DolphinCommand extends Command {
         if (!await Phone.hasPhone(this.message.author.id)) return this.message.say(`:no_good: You don't have a phone number. Create one using \`.createphone\``);
 
         let phone = await Phone.getByUserID(this.message.author.id);
-        if (phone.contacts.length == 0) return this.message.say(`:cry: You don't have saved contacts. Add one using \`.addcontact\``);
+        if (phone.contacts.length == 0) return this.message.say(`:cry: You don't have any contact saved. Add one using \`.addcontact\``);
 
         let pages = utils.pagify(phone.contacts, 10);
 

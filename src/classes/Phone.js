@@ -32,6 +32,19 @@ module.exports = class Phone {
         return {result: 'success', message: `Saved \`${phoneNumber}\` phone number as **${name}**`};
     }
 
+    static async removeContact(id, phoneNumber) {
+        if (!await Phone.validatePhoneNumber(phoneNumber)) return {result: 'error', message: `The phone number \`${phoneNumber}\` doesn't exist in the phone book.`};
+
+        let phone = await Phone.getByUserID(id);
+        if (!phone.contacts.some(contact => contact.phone == phoneNumber)) return {result: 'error', message: 'The contact you are trying to remove is not saved in your contacts.'};
+
+        let index = phone.contacts.findIndex(contact => contact.phone == phoneNumber);
+        phone.contacts.splice(index, 1);
+        await phone.save();
+
+        return {result: 'success', message: `Removed \`${phoneNumber}\` from your contacts.`};
+    }
+
     static async generatePhoneNumber() {
         let randomPhoneNumber = new Array(3).fill().map(() => utils.randomBetween(111, 999)).join('-');
         return await Phone.exists(randomPhoneNumber) ? await Phone.generatePhoneNumber() : randomPhoneNumber;
