@@ -4,7 +4,7 @@ Discord Retro is a project for the Discord Hack Week. It consists in turning dis
 
 ## Architecture
 
-Discord Retro uses [MongoDB](https://www.mongodb.com/) as it's database to store the users information such as e-mails, contacts and etc. We use **MongoDB** because of our experience and accessibility in such a short timespan. It also uses [DiscordJS](https://discord.js.org/), an open-source discord library to handle the Discord API, and [Dolphin](https://github.com/itspedruu/dolphin), a discord.js framework to easily create bots created by one of the Discord Retro team members.
+Discord Retro uses [MongoDB](https://www.mongodb.com/) as it's database to store the users information such as e-mails, contacts and etc. We use **MongoDB** because of my experience and accessibility in such a short timespan. It also uses [DiscordJS](https://discord.js.org/), an open-source discord library to handle the Discord API, and [Dolphin](https://github.com/itspedruu/dolphin), a discord.js framework to easily create bots created by [me](https://github.com/itspedruu).
 
 ## License
 
