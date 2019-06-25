@@ -73,7 +73,7 @@ module.exports = class Phone {
     static async canCall(receiverID, callerID) {
         let ids = [receiverID, callerID];
         let [receiverPhone, callerPhone] = await Promise.all(ids.map(id => Phone.getByUserID(id)));
-        return !receiverPhone.blocked.includes(callerPhone.id) && !await User.isInCall(receiverID);
+        return !receiverPhone.blocked.includes(callerPhone.id) || !await User.isInCall(receiverID);
     }
 
     static async generatePhoneNumber() {

@@ -50,12 +50,12 @@ module.exports = class DolphinCommand extends Command {
 
         let filter = (reaction, user) => reactions.includes(reaction.emoji.name) && user.id == receiver.id;
         message.awaitReactions(filter, {time: 120000, max: 1}).then(async collected => {
-            let accepted = collected.get('✅').count == 2;
+            let accepted = !!collected.get('✅');
             await message.delete();
 
-            if (await User.isInCall(receiver.id) || await User.isInCall(this.message.author.id)) return;
-
             if (accepted) {
+                if (await User.isInCall(receiver.id) || await User.isInCall(this.message.author.id)) return;
+
                 let startTime = Date.now();
 
                 this.message.author.send(`**${receiver.username}** accepted your call. Hang up any time sending \`hang up\``),
@@ -91,7 +91,14 @@ module.exports = class DolphinCommand extends Command {
             } else {
                 this.message.say(`:cry: The person you tried to call rejected your call.`);
             }
-        }).catch(() => this.message.say(`:cry: Your call exceded the response time.`))
+        }).catch(async () => {
+            this.message.say(`:cry: Your call exceded the response time.`);
+
+            if (!message.deleted) await message.delete();
+
+            let phone = await Phone.getByUserID(this.message.author.id);
+            receiver.send(`:iphone: The \`${phone.id}\` phone number tried to call you.`);
+        });
 
         for (let reaction of reactions) await message.react(reaction);
     }
