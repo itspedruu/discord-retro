@@ -7,7 +7,8 @@ module.exports = class DolphinCommand extends Command {
         super({
             name: 'profile',
             description: 'Displays your e-mail and phone information.',
-            syntax: 'profile'
+            syntax: 'profile',
+            dmVersion: true
         });
     }
 
