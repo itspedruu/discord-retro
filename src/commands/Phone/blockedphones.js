@@ -6,9 +6,9 @@ const {RichEmbed} = require('discord.js');
 module.exports = class DolphinCommand extends Command {
     constructor() {
         super({
-            name: 'contacts',
-            description: 'Displays your saved contacts',
-            syntax: 'contacts'
+            name: 'blockedphones',
+            description: 'Displays your blocked phones',
+            syntax: 'blockedphones'
         });
     }
 
@@ -16,15 +16,15 @@ module.exports = class DolphinCommand extends Command {
         if (!await Phone.hasPhone(this.message.author.id)) return this.message.say(`:no_good: You don't have a phone number. Create one using \`.createphone\``);
 
         let phone = await Phone.getByUserID(this.message.author.id);
-        if (phone.contacts.length == 0) return this.message.say(`:cry: You don't have any contact saved. Add one using \`.addcontact\``);
+        if (phone.blocked.length == 0) return this.message.say(`:cry: You don't have any phone number blocked.`);
 
-        let pages = utils.pagify(phone.contacts, 10);
+        let pages = utils.pagify(phone.blocked, 10);
 
         const getPage = (page, pageNumber) => {
-            let description = page.map(contact => `:bust_in_silhouette: **${contact.name}** \`${contact.phone}\``);
+            let description = page.map(phoneNumber => `:no_entry: **${phoneNumber}**`);
     
             return new RichEmbed()
-                .setAuthor(`${this.message.author.username}'s Contacts`, this.message.author.displayAvatarURL)
+                .setAuthor(`${this.message.author.username}'s Blocked Phone Numbers`, this.message.author.displayAvatarURL)
                 .setColor(this.client.options.mainColor)
                 .setFooter(`Page ${pageNumber}/${pages.length}`, this.client.user.displayAvatarURL)
                 .setTimestamp()

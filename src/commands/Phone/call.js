@@ -26,9 +26,11 @@ module.exports = class DolphinCommand extends Command {
         let receiverPhone = await Phone.getByPhoneNumber(phoneNumber);
         let receiver = this.client.users.get(receiverPhone.userID);
 
+        if (await User.isInCall(this.message.author.id)) return this.message.say(`:no_good: You are currently in a phone call.`);
+
         if (!receiver) return this.message.say(`:cry: Sorry! **${phoneNumber}** is unreachable.`);
         if (receiver.id == this.message.author.id) return this.message.say(`:thinking: Do you want to call yourself? Are you that lonely?`);
-        if (await User.isInCall(receiver.id)) return this.message.say(`:cry: Sorry! The person you tried to call is currently unavailable.`);
+        if (await Phone.canCall(receiver.id, this.message.author.id)) return this.message.say(`:cry: Sorry! The person you tried to call is currently unavailable.`);
 
         try {
             await receiver.createDM();

@@ -45,6 +45,37 @@ module.exports = class Phone {
         return {result: 'success', message: `Removed \`${phoneNumber}\` from your contacts.`};
     }
 
+    static async block(id, phoneNumber) {
+        if (!await Phone.validatePhoneNumber(phoneNumber)) return {result: 'error', message: `The phone number \`${phoneNumber}\` doesn't exist in the phone book.`};
+
+        let phone = await Phone.getByUserID(id);
+        if (phone.blocked.includes(phoneNumber)) return {result: 'error', message: `The phone number you entered is already blocked.`};
+
+        phone.blocked.push(phoneNumber);
+        await phone.save();
+
+        return {result: 'success', message: `Blocked \`${phoneNumber}\` successfully.`};
+    }
+
+    static async unblock(id, phoneNumber) {
+        if (!await Phone.validatePhoneNumber(phoneNumber)) return {result: 'error', message: `The phone number \`${phoneNumber}\` doesn't exist in the phone book.`};
+
+        let phone = await Phone.getByUserID(id);
+        if (!phone.blocked.includes(phoneNumber)) return {result: 'error', message: `The phone number you entered is not blocked.`};
+
+        let index = phone.blocked.indexOf(phoneNumber);
+        phone.blocked.splice(index, 1);
+        await phone.save();
+
+        return {result: 'success', message: `Unblocked \`${phoneNumber}\` successfully.`};
+    }
+
+    static async canCall(receiverID, callerID) {
+        let ids = [receiverID, callerID];
+        let [receiverPhone, callerPhone] = await Promise.all(ids.map(id => Phone.getByUserID(id)));
+        return !receiverPhone.blocked.includes(callerPhone.id) && !await User.isInCall(receiverID);
+    }
+
     static async generatePhoneNumber() {
         let randomPhoneNumber = new Array(3).fill().map(() => utils.randomBetween(111, 999)).join('-');
         return await Phone.exists(randomPhoneNumber) ? await Phone.generatePhoneNumber() : randomPhoneNumber;

@@ -18,7 +18,8 @@ const Email = new Schema({
 const Phone = new Schema({
     _id: String,
     contacts: {type: Array, default: []},
-    userID: String
+    userID: String,
+    blocked: {type: Array, default: []}
 });
 
 module.exports = {
