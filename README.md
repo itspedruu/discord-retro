@@ -1,3 +1,7 @@
+<div align="center">
+    <img src="https://cdn.discordapp.com/attachments/226684919718346762/593177273335808012/discord_retro_minified.png">
+</div>
+
 ## What is it?
 
 Discord Retro is a project for the Discord Hack Week. It consists in turning discord "retro". And why is that? That is because this bot makes possible to create *fictional* emails and phones. You can call users, send e-mails, save contacts, and much more **all inside Discord**.
