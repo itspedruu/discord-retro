@@ -74,7 +74,18 @@ module.exports = class Phone {
         let phone = await Phone.getByUserID(id);
         
         phone.anonymous = !phone.anonymous;
+        await phone.save();
+
         return {result: 'success', message: `Turned **${phone.anonymous ? 'on' : 'off'}** the anonymous mode.`};
+    }
+
+    static async togglePublic(id) {
+        let phone = await Phone.getByUserID(id);
+        
+        phone.public = !phone.public;
+        await phone.save();
+
+        return {result: 'success', message: `Turned your phone number **${phone.public ? 'public' : 'private'}**.`};
     }
 
     static async canCall(receiverID, callerID) {
@@ -107,6 +118,15 @@ module.exports = class Phone {
     static async validatePhoneNumber(phoneNumber) {
         let isValidPhoneString = new RegExp(/\d{3}-\d{3}-\d{3}/g).test(phoneNumber);
         return isValidPhoneString && await Phone.exists(phoneNumber);
+    }
+
+    static async getPublicPhoneNumbers() {
+        return new Promise((resolve, reject) => {
+            Phones.find({public: true}, (err, docs) => {
+                if (err) return reject(err);
+                resolve(docs.map(doc => doc.id));
+            });
+        });
     }
 
     static getByPhoneNumber(phoneNumber) {
