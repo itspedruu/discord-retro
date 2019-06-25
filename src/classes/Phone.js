@@ -70,6 +70,13 @@ module.exports = class Phone {
         return {result: 'success', message: `Unblocked \`${phoneNumber}\` successfully.`};
     }
 
+    static async toggleAnonymous(id) {
+        let phone = await Phone.getByUserID(id);
+        
+        phone.anonymous = !phone.anonymous;
+        return {result: 'success', message: `Turned **${phone.anonymous ? 'on' : 'off'}** the anonymous mode.`};
+    }
+
     static async canCall(receiverID, callerID) {
         let ids = [receiverID, callerID];
         let [receiverPhone, callerPhone] = await Promise.all(ids.map(id => Phone.getByUserID(id)));

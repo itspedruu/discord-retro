@@ -38,10 +38,12 @@ module.exports = class DolphinCommand extends Command {
             return this.message.say(`:cry: Sorry! The person you tried to call is currently unavailable.`);
         }
 
+        let caller = await Phone.getByUserID(this.message.author.id);
+
         this.message.say(`:iphone: You started calling \`${phoneNumber}\``);
 
         let message = await receiver.send(new RichEmbed()
-            .setDescription(`**${this.message.author.username}** is calling you. Do you accept it?`)
+            .setDescription(`${caller.anonymous ? 'An anonymous caller' : `**${this.message.author.username}**`} is calling you. Do you accept it?`)
             .setColor(this.client.options.mainColor)
             .setFooter(`You have 2 minutes to accept it.`)
         );
@@ -59,7 +61,7 @@ module.exports = class DolphinCommand extends Command {
                 let startTime = Date.now();
 
                 this.message.author.send(`**${receiver.username}** accepted your call. Hang up any time sending \`hang up\``),
-                receiver.send(`You started a call with **${this.message.author.username}**. Hang up any time sending \`hang up\``)
+                receiver.send(`You started a call with ${caller.anonymous ? 'an anonymous caller' : `**${this.message.author.username}**`}. Hang up any time sending \`hang up\``)
                 
                 let users = [this.message.author, receiver];
 
@@ -84,7 +86,7 @@ module.exports = class DolphinCommand extends Command {
                             return collectors.forEach(collector => collector.stop());
                         }
 
-                        let prefixMessage = `***${user.username}:*** `;
+                        let prefixMessage = `***${index == 0 && caller.anonymous ? 'Anonymous' : user.username}:*** `;
                         otherUser.send(prefixMessage + message.content.slice(0, 2000 - prefixMessage.length));
                     });
                 }

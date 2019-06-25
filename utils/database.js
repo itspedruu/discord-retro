@@ -20,7 +20,8 @@ const Phone = new Schema({
     _id: String,
     contacts: {type: Array, default: []},
     userID: String,
-    blocked: {type: Array, default: []}
+    blocked: {type: Array, default: []},
+    anonymous: {type: Boolean, default: false}
 });
 
 module.exports = {
