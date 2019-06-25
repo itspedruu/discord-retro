@@ -53,6 +53,36 @@ module.exports = class Email {
         return email.sent;
     }
 
+    static async block(id, emailName) {
+        if (!await Email.validateEmail(emailName)) return {result: 'error', message: `The e-mail you entered doesn't exist.`};
+
+        let email = await Email.getByUserID(id);
+        if (email.blocked.includes(emailName)) return {result: 'error', message: `The e-mail you entered is already blocked.`};
+
+        email.blocked.push(emailName);
+        await email.save();
+
+        return {result: 'success', message: `Blocked \`${emailName}@discordretro.com\` successfully.`};
+    }
+
+    static async unblock(id, emailName) {
+        if (!await Email.validateEmail(emailName)) return {result: 'error', message: `The e-mail you entered doesn't exist.`};
+
+        let email = await Email.getByUserID(id);
+        if (!email.blocked.includes(emailName)) return {result: 'error', message: `The e-mail you entered is not blocked.`};
+
+        let index = email.blocked.indexOf(emailName);
+        email.blocked.splice(index, 1);
+        await email.save();
+
+        return {result: 'success', message: `Unblocked \`${emailName}@discordretro.com\` successfully.`};
+    }
+
+    static async canSend(from, to) {
+        let email = await Email.getByEmailName(to);
+        return !email.blocked.includes(from);
+    }
+
     static async validateEmail(emailName) {
         let isValidEmailName = new RegExp(/^(\w|_)+$/g).test(emailName);
         return isValidEmailName && await Email.exists(emailName);

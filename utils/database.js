@@ -12,7 +12,8 @@ const Email = new Schema({
     _id: String,
     inbox: {type: Array, default: []},
     userID: String,
-    sent: {type: Array, default: []}
+    sent: {type: Array, default: []},
+    blocked: {type: Array, default: []}
 });
 
 const Phone = new Schema({
