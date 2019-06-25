@@ -7,6 +7,13 @@ module.exports = class User {
         user.phone = phoneNumber;
         await user.save();
     }
+
+    static async setupEmail(id, emailName) {
+        let user = await User.getByID(id);
+        
+        user.email = emailName;
+        await user.save();
+    }
     
     static async isInCall(id) {
         let user = await User.getByID(id);
@@ -16,7 +23,7 @@ module.exports = class User {
     static getByID(id) {
         return new Promise((resolve, reject) => {
             Users.findById(id, async (err, doc) => {
-                if (err) reject(err);
+                if (err) return reject(err);
                 
                 if (!doc) {
                     // Creates a new document with the respective user id if it doesn't exist in the database

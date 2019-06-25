@@ -15,7 +15,7 @@ module.exports = class Phone {
         await phone.save();
         await User.setupPhone(userID, phoneNumber);
 
-        return {result: 'success', message: `You created a phone number! Your phone number is \`${phoneNumber}\``};
+        return {result: 'success', message: `You have created a phone number! Your phone number is \`${phoneNumber}\``};
     }
 
     static async addContact(id, name, phoneNumber) {
@@ -74,7 +74,7 @@ module.exports = class Phone {
     static getByPhoneNumber(phoneNumber) {
         return new Promise((resolve, reject) => {
             Phones.findById(phoneNumber, (err, doc) => {
-                if (err) reject(err);
+                if (err) return reject(err);
                 resolve(doc);
             });
         });
@@ -83,7 +83,7 @@ module.exports = class Phone {
     static getByUserID(userID) {
         return new Promise((resolve, reject) => {
             Phones.findOne({userID}, (err, doc) => {
-                if (err) reject(err);
+                if (err) return reject(err);
                 resolve(doc);
             });
         });

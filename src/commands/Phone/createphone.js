@@ -13,6 +13,6 @@ module.exports = class DolphinCommand extends Command {
     async run() {
         let response = await Phone.create(this.message.author.id);
 
-        this.message.say(`:white_check_mark: ${response.message}`);
+        this.message.say(`${response.result == 'error' ? ':no_good:' : ':white_check_mark:'} ${response.message}`);
     }
 }
