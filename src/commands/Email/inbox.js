@@ -23,7 +23,7 @@ module.exports = class DolphinCommand extends Command {
                 .setAuthor(`${this.message.author.username}'s E-mails`, this.message.author.displayAvatarURL)
                 .setColor(this.client.options.mainColor)
                 .setFooter(`Page ${pageNumber}/${email.inbox.length}`, this.client.user.displayAvatarURL)
-                .setTimestamp()
+                .setTimestamp(item.sentTimestamp)
                 .setDescription(`**From:** \`${item.from}@discordretro.com\`\n\n${item.content}`);
         }
 
