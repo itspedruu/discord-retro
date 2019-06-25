@@ -19,15 +19,15 @@ module.exports = class DolphinCommand extends Command {
         let emailName = matches.length == 0 ? null : matches[0];
         if (!await Email.exists(emailName)) return this.message.say(`:cry: Sorry! I couldn't find that e-mail.`);
 
-        this.message.say(`:email: Type your message or cancel it typing **cancel**.\n\n**MAX CHARACTERS:** \`1950\``);
+        this.message.say(`:email: Type your message or cancel it typing **cancel**.\n\n**MAX CHARACTERS:** \`${this.client.config.emailMaxCarac}\``);
 
-        let from = await Email.getByUserID(this.message.author.id)
+        let from = await Email.getByUserID(this.message.author.id);
 
         let filter = message => message.author.id == this.message.author.id;
         this.message.channel.awaitMessages(filter, {max: 1}).then(async collected => {
             let content = collected.first().content;
             if (content.toLowerCase() == 'cancel') return this.message.say(`:white_check_mark: Cancelled your action.`);
-            if (content.length > 1950) return this.message.say(`:cry: Sorry! Your message exceded **1950 characters**.`);
+            if (content.length > this.client.config.emailMaxCarac) return this.message.say(`:cry: Sorry! Your message exceded **${this.client.config.emailMaxCarac} characters**.`);
             
             await Email.send(from, emailName, content);
             this.message.say(`:email: You've sent an e-mail to \`${emailName}@discordretro.com\``)

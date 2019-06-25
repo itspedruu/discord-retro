@@ -24,10 +24,33 @@ module.exports = class Email {
         let sentTimestamp = Date.now();
         
         email.inbox.push({from: from.id, content, sentTimestamp});
-        from.sent.push({to: emailName, content, sentTimestamp});
+
+        if (from.id !== email.id) {
+            from.sent.push({to: emailName, content, sentTimestamp});
+        } else {
+            email.sent.push({to: emailName, content, sentTimestamp});
+        }
         
-        await from.save();
+        if (from.id !== email.id) await from.save();
         await email.save();
+    }
+
+    static async removeFromInbox(userID, index) {
+        let email = await Email.getByUserID(userID);
+
+        email.inbox.splice(index, 1);
+        await email.save();
+
+        return email.inbox;
+    }
+
+    static async removeFromSent(userID, index) {
+        let email = await Email.getByUserID(userID);
+
+        email.sent.splice(index, 1);
+        await email.save();
+
+        return email.sent;
     }
 
     static async validateEmail(emailName) {

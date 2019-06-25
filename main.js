@@ -11,6 +11,9 @@ const DolphinConfig = require('./dolphin_config.json');
 // Create a Dolphin Client instance
 const client = new Client(DolphinConfig);
 
+// Attach config file to client
+client.config = require('./config.json');
+
 // Handle errors from unhandledRejections
 process.on('unhandledRejection', console.error);
 

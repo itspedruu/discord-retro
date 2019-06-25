@@ -12,7 +12,7 @@ const Email = new Schema({
     _id: String,
     inbox: {type: Array, default: []},
     userID: String,
-    sentEmails: {type: Array, default: []}
+    sent: {type: Array, default: []}
 });
 
 const Phone = new Schema({
