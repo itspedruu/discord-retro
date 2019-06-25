@@ -6,6 +6,14 @@ Discord Retro is a project for the Discord Hack Week. It consists in turning dis
 
 Discord Retro uses [MongoDB](https://www.mongodb.com/) as it's database to store the users information such as e-mails, contacts and etc. We use **MongoDB** because of my experience and accessibility in such a short timespan. It also uses [DiscordJS](https://discord.js.org/), an open-source discord library to handle the Discord API, and [Dolphin](https://github.com/itspedruu/dolphin), a discord.js framework to easily create bots created by [me](https://github.com/itspedruu).
 
+## Setup
+
+1. Install [Node](https://nodejs.org/)
+2. Replace `.env.example` file name to `.env`
+3. Attribute a [discord bot token](https://discordapp.com/developers/applications/) in `.env` to the `TOKEN` parameter
+4. Attribue a MongoDB connection url in `.env` to the `MONGO_URL` parameter. You can create a 512MB MongoDB database for free [here](https://www.mongodb.com/cloud/atlas).
+5. Open your command prompt, go to the bot folder using `cd "FOLDER_PATH"` and then execute `npm start`. Enjoy!
+
 ## License
 
 > Copyright 2019 Pedro Pinto
