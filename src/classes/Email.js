@@ -20,9 +20,11 @@ module.exports = class Email {
 
     static async send(from, emailName, content) {
         let email = await Email.getByEmailName(emailName);
+
+        let sentTimestamp = Date.now();
         
-        email.inbox.push({from: from.id, content});
-        from.sent.push({to: emailName, content});
+        email.inbox.push({from: from.id, content, sentTimestamp});
+        from.sent.push({to: emailName, content, sentTimestamp});
         
         await from.save();
         await email.save();
