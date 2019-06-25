@@ -29,7 +29,7 @@ module.exports = class DolphinCommand extends Command {
             if (content.toLowerCase() == 'cancel') return this.message.say(`:white_check_mark: Cancelled your action.`);
             if (content.length > 1950) return this.message.say(`:cry: Sorry! Your message exceded **1950 characters**.`);
             
-            await Email.send(from.id, emailName, content);
+            await Email.send(from, emailName, content);
             this.message.say(`:email: You've sent an e-mail to \`${emailName}@discordretro.com\``)
         }).catch(err => {
             console.log(err);
