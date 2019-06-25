@@ -27,6 +27,7 @@ module.exports = class DolphinCommand extends Command {
         let receiver = this.client.users.get(receiverPhone.userID);
 
         if (!receiver) return this.message.say(`:cry: Sorry! **${phoneNumber}** is unreachable.`);
+        if (receiver.id == this.message.author.id) return this.message.say(`:thinking: Do you want to call yourself? Are you that lonely?`);
         if (await User.isInCall(receiver.id)) return this.message.say(`:cry: Sorry! The person you tried to call is currently unavailable.`);
 
         try {
@@ -59,6 +60,8 @@ module.exports = class DolphinCommand extends Command {
                 receiver.send(`You started a call with **${this.message.author.username}**. Hang up any time sending \`hang up\``)
                 
                 let users = [this.message.author, receiver];
+
+                for (let user of users) await User.toggleInCall(user.id, true);
                 
                 let collectors = users.map(user => {
                     let filter = message => message.author.id == user.id;
@@ -71,10 +74,11 @@ module.exports = class DolphinCommand extends Command {
 
                     let collector = collectors[index];
 
-                    collector.on('collect', message => {
+                    collector.on('collect', async message => {
                         if (message.content.toLowerCase() == 'hang up') {
                             let callTime = Date.now() - startTime;
                             users.forEach(user => user.send(`The call has ended and lasted for \`${utils.format(callTime / 1000)}\``));
+                            for (let user of users) await User.toggleInCall(user.id, false);
                             return collectors.forEach(collector => collector.stop());
                         }
 

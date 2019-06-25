@@ -19,8 +19,8 @@ module.exports = class DolphinCommand extends Command {
             .setColor(this.client.options.mainColor)
             .setFooter(...this.message.userFooter)
             .setTimestamp()
-            .addField(':e_mail: E-mail', user.email ? `${user.email}@discordretro.com` : '**Inexistent**', true)
-            .addField(':iphone: Phone', user.phone || '**Inexistent**', true)
+            .addField(':e_mail: E-mail', user.email ? `${user.email}@discordretro.com` : '**Inexistent**')
+            .addField(':iphone: Phone', user.phone || '**Inexistent**')
         );
     }
 }

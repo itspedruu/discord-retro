@@ -18,6 +18,13 @@ module.exports = class Email {
         return {result: 'success', message: `You have created an e-mail! Your e-mail is \`${emailName}@discordretro.com\``};
     }
 
+    static async send(from, emailName, content) {
+        let email = await Email.getByEmailName(emailName);
+        
+        email.inbox.push({from, content});
+        await email.save();
+    }
+
     static async validateEmail(emailName) {
         let isValidEmailName = new RegExp(/^(\w|_)+$/g).test(emailName);
         return isValidEmailName && await Email.exists(emailName);

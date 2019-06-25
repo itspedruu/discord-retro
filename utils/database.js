@@ -11,7 +11,8 @@ const User = new Schema({
 const Email = new Schema({
     _id: String,
     inbox: {type: Array, default: []},
-    userID: String
+    userID: String,
+    sentEmails: {type: Array, default: []}
 });
 
 const Phone = new Schema({

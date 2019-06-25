@@ -20,6 +20,12 @@ module.exports = class User {
         return user.inCall;
     }
 
+    static async toggleInCall(id, value) {
+        let user = await User.getByID(id);
+        user.inCall = value;
+        await user.save();
+    }
+
     static getByID(id) {
         return new Promise((resolve, reject) => {
             Users.findById(id, async (err, doc) => {
