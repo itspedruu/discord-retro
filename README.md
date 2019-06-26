@@ -1,5 +1,6 @@
 <div align="center">
     <img src="https://cdn.discordapp.com/attachments/226684919718346762/593177273335808012/discord_retro_minified.png">
+	<img src="https://i.imgur.com/CCN9UPb.png" width=90 height=90 style="position:absolute; right: 1%; top: 5px">
 </div>
 
 ## What is it?
