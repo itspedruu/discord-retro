@@ -8,8 +8,8 @@ module.exports = class DolphinCommand extends Command {
     constructor() {
         super({
             name: 'call',
-            description: 'Call someone knowning his phone number',
-            syntax: 'call <phone-number>',
+            description: 'Call someone from your contact list or by the phone number',
+            syntax: 'call <phone-number|contact-name>',
             defaultArgs: 1,
             dmVersion: true
         });
