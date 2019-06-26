@@ -84,7 +84,11 @@ module.exports = class DolphinCommand extends Command {
                         if (message.content.toLowerCase() == 'hang up') {
                             let callTime = Date.now() - startTime;
                             users.forEach(user => user.send(`The call has ended and lasted for \`${utils.format(callTime / 1000)}\``));
-                            for (let user of users) await User.toggleInCall(user.id, false);
+
+                            for (let user of users) {
+                                await Promise.all([User.toggleInCall(user.id, false), Phone.addToHistory(user.id, index == 0 && caller.anonymous ? 'Anonymous' : user.username, callTime / 1000)]);
+                            }
+
                             return collectors.forEach(collector => collector.stop());
                         }
 

@@ -94,6 +94,13 @@ module.exports = class Phone {
         return !receiverPhone.blocked.includes(callerPhone.id) || !await User.isInCall(receiverID);
     }
 
+    static async addToHistory(id, caller, duration) {
+        let phone = await Phone.getByUserID(id);
+
+        phone.history.unshift({caller, duration, timestamp: Date.now()});
+        await phone.save();
+    }
+
     static async generatePhoneNumber() {
         let randomPhoneNumber = new Array(3).fill().map(() => utils.randomBetween(111, 999)).join('-');
         return await Phone.exists(randomPhoneNumber) ? await Phone.generatePhoneNumber() : randomPhoneNumber;

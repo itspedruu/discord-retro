@@ -22,7 +22,8 @@ const Phone = new Schema({
     userID: String,
     blocked: {type: Array, default: []},
     anonymous: {type: Boolean, default: false},
-    public: {type: Boolean, default: false}
+    public: {type: Boolean, default: false},
+    history: {type: Array, default: []}
 });
 
 module.exports = {
