@@ -53,6 +53,8 @@ module.exports = class DolphinCommand extends Command {
         let filter = (reaction, user) => reactions.includes(reaction.emoji.name) && user.id == receiver.id;
         message.awaitReactions(filter, {time: 120000, max: 1}).then(async collected => {
             let accepted = !!collected.get('✅');
+            let timeOver = !accepted && !collected.get('❎');
+
             await message.delete();
 
             if (accepted) {
@@ -90,16 +92,43 @@ module.exports = class DolphinCommand extends Command {
                         otherUser.send(prefixMessage + message.content.slice(0, 2000 - prefixMessage.length));
                     });
                 }
+            } else if (timeOver) {
+                let text = `:cry: Your call exceded the response time. Do you want to leave a voicemail?`;
+                let confirmation = this.createConfirmation({text, userID: this.message.author.id, embedColor: this.client.options.mainColor});
+
+                confirmation.on('confirmation', async confirmed => {
+                    if (confirmed) {
+                        this.message.say(`:telephone: Write down a message:`);
+                        
+                        let filter = message => message.author.id == this.message.author.id;
+                        this.message.author.dmChannel.awaitMessages(filter, {max: 1, time: 60000}).then(collected => {
+                            let content = collected.first().content;
+
+                            let prefix = `${caller.anonymous ? 'An anonymous caller' : `**${this.message.author.username}**`} left you a message: `;
+                            receiver.send(prefix + content.slice(0, 2000 - prefix.length));
+
+                            this.message.say(`:white_check_mark: You have sent a voicemail.`);
+                        }).catch(() => this.message.say(`:no_good: Your voicemail time is over.`));
+                    } else {
+                        let phone = await Phone.getByUserID(this.message.author.id);
+                        receiver.send(`:iphone: The \`${phone.id}\` phone number tried to call you.`);
+                    }
+                });
+
+                confirmation.on('over', async timeOver => {
+                    if (timeOver) {
+                        let phone = await Phone.getByUserID(this.message.author.id);
+                        receiver.send(`:iphone: The \`${phone.id}\` phone number tried to call you.`);
+                    }
+                });
             } else {
                 this.message.say(`:cry: The person you tried to call rejected your call.`);
             }
-        }).catch(async () => {
-            this.message.say(`:cry: Your call exceded the response time.`);
+        }).catch(async err => {
+            console.log(err);
 
             if (!message.deleted) await message.delete();
-
-            let phone = await Phone.getByUserID(this.message.author.id);
-            receiver.send(`:iphone: The \`${phone.id}\` phone number tried to call you.`);
+            this.message.say(`:no_good: An unexpected error has occurred. Try again.`);
         });
 
         for (let reaction of reactions) await message.react(reaction);
