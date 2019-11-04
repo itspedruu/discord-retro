@@ -15,7 +15,7 @@
   "dependencies": {
     "dolphin-discord": "^2.2.8",
     "dotenv": "^8.0.0",
-    "mongoose": "^5.6.0"
+    "mongoose": "^5.7.5"
   },
   "scripts": {
     "start": "node ."
